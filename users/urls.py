@@ -13,17 +13,15 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import  url
-from django.contrib.auth.decorators import login_required
-from posts.views import HomeView, PostListViewByUser, PostDetailView, PostListView, VanillaCreateView
+from django.conf.urls import include, url
+from users.views import LogoutView, LoginView, SignupView
+
 
 
 urlpatterns = [
 
-    url(r'^$', HomeView.as_view(), name="posts_home"),
-    url(r'posts/new$', VanillaCreateView.as_view(), name="create_post"),
-    url(r'posts/$', PostListView.as_view(), name="all_posts"),
-    url(r'posts/([0-9a-zA-Z]+)$', PostListViewByUser.as_view(), name='list_post'),
-    url(r'^posts/(?P<loginname>[0-9a-zA-Z]+)/(?P<post_id>[0-9]+)$',login_required(PostDetailView.as_view()), name='posts_detail')
+    url(r'^login$', LoginView.as_view(), name='users_login'),
+    url(r'^logout', LogoutView.as_view(), name='users_logout'),
+    url(r'^signup', SignupView.as_view(), name='users_signup')
 
 ]
