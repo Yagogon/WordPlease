@@ -24,6 +24,6 @@ urlpatterns = [
     url(r'posts/new$', VanillaCreateView.as_view(), name="create_post"),
     url(r'posts/$', PostListView.as_view(), name="all_posts"),
     url(r'posts/([0-9a-zA-Z]+)$', PostListViewByUser.as_view(), name='list_post'),
-    url(r'^posts/(?P<loginname>[0-9a-zA-Z]+)/(?P<post_id>[0-9]+)$',login_required(PostDetailView.as_view()), name='posts_detail')
+    url(r'^posts/(?P<loginname>[0-9a-zA-Z]+)/(?P<post_id>[0-9]+)$',PostDetailView.as_view(), name='posts_detail')
 
 ]
