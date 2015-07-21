@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head lang="es">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css">
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    {% include 'material/includes/material_css.html' %}
+    {% include 'material/includes/material_js.html' %}
+</head>
+<body>
+<!-- The drawer is always open in large screens. The header is always shown,
+  even in small screens. -->
+<div class="demo-layout">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
+              mdl-layout--fixed-header">
+        <header class="mdl-layout__header" style="background-color: whitesmoke">
+            <div class="mdl-layout__header-row">
+
+            </div>
+        </header>
+        <div class="mdl-layout__drawer" style="background-color: black">
+            <span class="mdl-layout-title" style="background-color: black">Mi sitio</span>
+            <nav class="mdl-navigation" style="background-color: black">
+                <a class="mdl-navigation__link" href="{% url 'posts_home' %}">Inicio</a>
+                <a class="mdl-navigation__link" href="{% url 'all_posts' %}">Blogs</a>
+                {% if user.is_authenticated %}
+                <a class="mdl-navigation__link" href="{% url 'list_post' user.username %}">Mi Blog</a>
+                <a class="mdl-navigation__link" href="{% url 'create_post' %}">Crear post</a>
+                <a class="mdl-navigation__link" href="">Link</a>
+                <a class="mdl-navigation__link" href="{% url 'users_logout' %}">Salir</a>
+                {% else %}
+                <a class="mdl-navigation__link" href="{% url 'users_login' %}">Entrar</a>
+                <a class="mdl-navigation__link" href="{% url 'users_signup' %}">Registrarse</a>
+                {% endif %}
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+            <div class="page-content">
+
+                {% block main %} {% endblock %}
+
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>
+
+
