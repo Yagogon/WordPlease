@@ -15,3 +15,10 @@ class PostListSerializer(serializers.ModelSerializer):
 
         model = Post
         fields = ('resume', 'image_url', 'publish_date')
+
+class PostDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = Post
+        exclude = []

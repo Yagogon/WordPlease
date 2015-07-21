@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.utils.timezone import now
 from posts.models import Post
 from posts.permissions import PostPermission
-from posts.serializers import BlogSerializer, PostListSerializer
+from posts.serializers import BlogSerializer, PostListSerializer, PostDetailSerializer
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet, ModelViewSet
 
@@ -41,6 +41,13 @@ class PostViewSet(ModelViewSet, PostQueryset):
 
     def get_queryset(self):
         return self.get_post_queryset()
+
+    def get_serializer_class(self):
+
+        if (self.action == 'list'):
+            return PostListSerializer
+        else:
+            return PostDetailSerializer
 
     def perform_create(self, serializer):
         """
