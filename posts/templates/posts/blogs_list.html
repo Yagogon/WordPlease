@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block main %}
+<style>
+  .post-card-wide.mdl-card {
+    width: 100%;
+  }
+  .post-card-wide > .mdl-card__title {
+    color: #fff;
+    height: 176px;
+
+
+  }
+  .post-card-wide > .mdl-card__menu {
+    color: #fff;
+  }
+</style>
+{% for user, posts in blogs.items %}
+    <a class="mdl-navigation__link" href="{% url 'list_post' user.username %}">
+         <h3 align="center" style="color: darkgrey">Blog de {{user.username}} <span class="mdl-badge" data-badge={{ posts|length }}></span></h3>
+    </a>
+
+    <div class="demo-grid-1 mdl-grid">
+    {% for post in posts|slice:":3" %}
+
+    <div class="mdl-cell mdl-cell--4-col" >
+        <div class="mdl-card mdl-shadow--2dp post-card-wide" >
+            <div class="mdl-card__title" style="background: url('{{post.image_url}}') center / cover;">
+                <h2 class="mdl-card__title-text"></h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                {{ post.resume }}
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'posts_detail' post.owner.username post.pk %}">
+                    Leer más
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    {% endfor %}
+    </div>
+
+{% endfor %}
+
+{% endblock %}

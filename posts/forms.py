@@ -8,4 +8,4 @@ class PostForm(forms.ModelForm, Layout):
 
     class Meta:
         model = Post
-        exclude = []
+        exclude = ['owner']

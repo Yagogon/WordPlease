@@ -28,7 +28,7 @@ class Post(models.Model):
     body = models.TextField()
     image_url = models.URLField(null=True, blank=True)
     publish_date = models.DateField()
-    categories = models.ForeignKey(Category, null=True, blank=True)
+    categories = models.ManyToManyField(Category, null=True, blank=True)
 
     def __unicode__(self):
         return self.resume

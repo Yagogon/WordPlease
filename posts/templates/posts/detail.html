@@ -1,5 +1,57 @@
 {% extends 'base.html' %}
 
 {% block main %}
-{{post.resume}}
+<style>
+    .post-card-wide.mdl-card {
+        width: 100%;
+    }
+    .post-card-wide > .mdl-card__title {
+        color: #fff;
+        height: 250px;
+
+
+    }
+    .post-card-wide > .mdl-card__menu {
+        color: #fff;
+    }
+</style>
+<div>
+    <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="{% url 'list_post' post.owner.username %}">
+        <i class="material-icons">arrow_back</i>
+    </a>
+</div>
+<div style="margin-left: 70px;margin-right: 70px"
+<div class="demo-grid-1 mdl-grid">
+
+    <div class="mdl-cell mdl-cell--12-col" >
+        <div class="mdl-card mdl-shadow--2dp post-card-wide" >
+            <div class="mdl-card__title" style="background: url('{{post.image_url}}') center / cover;">
+                <h2 class="mdl-card__title-text"></h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                <h5 style="color: darkgrey">{{ post.resume }}</h5>
+            </div>
+               <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+              <div class="minilogo"></div>
+              <div>
+                <strong>{{post.owner.username|capfirst}}</strong>
+                <span>{{post.publish_date}}</span>
+              </div>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+
+                {{post.body}}
+
+            </div>
+            <div class="mdl-card__actions mdl-card--border" style="background-color: whitesmoke">
+                {% for category in post.categories.all %}
+                {{category}}
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
 {% endblock %}

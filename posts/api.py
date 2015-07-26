@@ -1,9 +1,11 @@
+from django.contrib.auth.models import User
 from django.db.models import Q
 from django.utils.timezone import now
 from posts.models import Post
 from posts.permissions import PostPermission
 from posts.serializers import BlogSerializer, PostListSerializer, PostDetailSerializer
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.mixins import ListModelMixin
 from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet, ModelViewSet
 
 class PostQueryset(object):
@@ -21,12 +23,12 @@ class PostQueryset(object):
 
         return posts
 
-class BlogViewSet(ReadOnlyModelViewSet):
+class BlogViewSet(ListModelMixin, GenericViewSet):
 
-    queryset = Post.objects.all()
+    queryset = User.objects.all()
     serializer_class = BlogSerializer
-    search_filters = ('owner__username')
-    ordering_fields = ('owner__username')
+    search_fields = ('username',)
+    ordering_fields = ('username',)
     filter_backends = (SearchFilter, OrderingFilter)
 
 
@@ -35,7 +37,7 @@ class PostViewSet(ModelViewSet, PostQueryset):
 
     serializer_class = PostListSerializer
     permission_classes = (PostPermission,)
-    search_fields = ('resume',)
+    search_fields = ('resume','body')
     ordering_fields = ('publish_date',)
     filter_backends = (SearchFilter, OrderingFilter)
 

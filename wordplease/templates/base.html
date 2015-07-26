@@ -6,8 +6,15 @@
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css">
     <script src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href='//fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en' rel='stylesheet' type='text/css'>
     {% include 'material/includes/material_css.html' %}
     {% include 'material/includes/material_js.html' %}
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
 </head>
 <body>
 <!-- The drawer is always open in large screens. The header is always shown,
@@ -15,20 +22,20 @@
 <div class="demo-layout">
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
               mdl-layout--fixed-header">
-        <header class="mdl-layout__header" style="background-color: whitesmoke">
-            <div class="mdl-layout__header-row">
+        <header class="mdl-layout__header" style="background-color: white;color: darkgrey;background">
 
-            </div>
+            <h3 align="center">WordPlease</h3>
+            <h5 align="center">Tu blog, y cada día el de más gente</h5>
+
         </header>
         <div class="mdl-layout__drawer" style="background-color: black">
             <span class="mdl-layout-title" style="background-color: black">Mi sitio</span>
             <nav class="mdl-navigation" style="background-color: black">
                 <a class="mdl-navigation__link" href="{% url 'posts_home' %}">Inicio</a>
-                <a class="mdl-navigation__link" href="{% url 'all_posts' %}">Blogs</a>
+                <a class="mdl-navigation__link" href="{% url 'blogs_list' %}">Blogs</a>
                 {% if user.is_authenticated %}
                 <a class="mdl-navigation__link" href="{% url 'list_post' user.username %}">Mi Blog</a>
                 <a class="mdl-navigation__link" href="{% url 'create_post' %}">Crear post</a>
-                <a class="mdl-navigation__link" href="">Link</a>
                 <a class="mdl-navigation__link" href="{% url 'users_logout' %}">Salir</a>
                 {% else %}
                 <a class="mdl-navigation__link" href="{% url 'users_login' %}">Entrar</a>
@@ -36,7 +43,7 @@
                 {% endif %}
             </nav>
         </div>
-        <main class="mdl-layout__content">
+        <main class="mdl-layout__content" style="background-color: whitesmoke;">
             <div class="page-content">
 
                 {% block main %} {% endblock %}

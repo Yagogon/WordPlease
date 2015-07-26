@@ -15,9 +15,6 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.auth.decorators import login_required
-from posts.views import HomeView, CreateView, PostListViewByUser, PostDetailView, PostListView, VanillaCreateView
-from users.views import LogoutView, LoginView, SignupView
 from users import api_urls as users_api_urls, urls as users_urls
 from posts import api_urls as posts_api_urls, urls as posts_urls
 

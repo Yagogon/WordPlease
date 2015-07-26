@@ -101,8 +101,11 @@ class SignupView(View):
         form = SignupForm(request.POST)
 
         if form.is_valid():
-            new_user = form.save()
-            user = authenticate(username=new_user.username, password=new_user.password)
+            clean_pass = form.cleaned_data.get('password')
+            new_user = form.save(commit=False)
+            new_user.set_password(clean_pass)
+            new_user.save()
+            user = authenticate(username=new_user.username, password=clean_pass)
             if user is not None:
                 django_login(request, user)
                 url = request.GET.get('next', 'posts_home')
@@ -114,7 +117,7 @@ class SignupView(View):
             'login_form': form
         }
 
-        return render(request, 'posts/signup.html', context)
+        return render(request, 'users/signup.html', context)
 
 
 

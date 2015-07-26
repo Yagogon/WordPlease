@@ -1,5 +1,7 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
+from django.utils.timezone import now
 from django.views.generic import View
 from vanilla import CreateView
 from django.core.urlresolvers import reverse_lazy
@@ -19,7 +21,9 @@ class VanillaCreateView(CreateView):
 
     def form_valid(self, form):
 
-        form.save()
+        post = form.save(commit=False)
+        post.owner = self.request.user
+        post.save()
 
         context = {
 
@@ -36,7 +40,7 @@ class HomeView(View):
         Devuelve el home de la pagina
 
         """
-        posts = Post.objects.all().order_by('-publish_date')
+        posts = Post.objects.filter(publish_date__lte=now).order_by('-publish_date')
 
         context = {
 
@@ -80,23 +84,50 @@ class PostListViewByUser(View):
 
     def get(self, request, username):
 
-        context = {
+        if request.user.username == username:
 
-            'posts': Post.objects.filter(owner=request.user).order_by('-publish_date')
-        }
+            context = {
+
+            'posts': Post.objects.filter(owner__username=username).order_by('-publish_date')
+
+            }
+
+        else:
+
+            context = {
+
+            'posts': Post.objects.filter(owner__username=username, publish_date__lte = now).order_by('-publish_date')
+
+            }
+
 
         return render(request, 'posts/posts_list.html', context)
 
-class PostListView(View):
+class BlogListView(View):
 
     def get(self, request):
 
+        users = User.objects.all()
+        blogs = {}
+
+        for user in users:
+
+            if user == request.user:
+                user_blog = Post.objects.filter(owner=user).order_by('publish_date')
+            else:
+                user_blog = Post.objects.filter(owner=user, publish_date__lte = now).order_by('publish_date')
+
+
+            if len(user_blog) > 0:
+                blogs[user] = user_blog
+
         context = {
 
-            'posts': Post.objects.all()
+            'blogs': blogs,
+
         }
 
-        return render(request, 'posts/posts_list.html', context)
+        return render(request, 'posts/blogs_list.html', context)
 
 
 class PostDetailView(View):

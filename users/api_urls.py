@@ -14,9 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
-from posts.urls import url as blogs_urls
-from posts.views import HomeView, CreateView, PostListViewByUser, PostDetailView, PostListView
 from rest_framework.routers import DefaultRouter
 from users.api import UserViewSet
 
