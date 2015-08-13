@@ -1,5 +1,5 @@
 from rest_framework.permissions import BasePermission
-from django.utils.timezone import now
+from datetime import date
 
 class PostPermission(BasePermission):
 
@@ -11,7 +11,7 @@ class PostPermission(BasePermission):
         :param view:
         :return:
         """
-        if view.action == 'create' and request.user.is_authenticated:
+        if view.action == 'create' and request.user.is_authenticated():
             return True
 
         elif request.user.is_superuser:
@@ -36,4 +36,8 @@ class PostPermission(BasePermission):
         """
         # si es un superadmin, o el usuario autenticado intenta
         # hacer GET, PUT o DELETE sobre su mismo perfil
-        return request.user.is_superuser or request.user == obj.owner or obj.publish_date < now
+        return request.user.is_superuser or request.user == obj.owner or self.has_object_no_owner_permission(view, obj)
+
+    def has_object_no_owner_permission(self, view, obj):
+
+        return (view.action == 'list' or view.action == 'retrieve') and obj.publish_date < date.today()

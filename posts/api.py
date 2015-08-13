@@ -53,10 +53,14 @@ class PostViewSet(ModelViewSet, PostQueryset):
 
     def perform_create(self, serializer):
         """
-        Asigna automaticamente la autoria de la nueva foto al usuario autenticado
+        Asigna automaticamente la autoria del post al usuario autenticado
         :param serializer:
         :return:
         """
+        serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+
         serializer.save(owner=self.request.user)
 
 
